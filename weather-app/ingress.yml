@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: entrypoint
+  labels:
+    name: entrypoint
+spec:
+  ingressClassName: nginx
+  rules:
+  - http: 
+      paths:
+      - pathType: Prefix
+        path: /guess/
+        backend:
+          service:
+            name: guess-server
+            port: 
+              number: 5000
+      - pathType: Prefix
+        path: /weather/
+        backend:
+          service:
+            name: weatherapp
+            port:
+              number: 5001

@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: weatherapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: weatherapp
+  template:
+    metadata:
+      labels:
+        app: weatherapp
+    spec:
+      containers:
+      - name: weatherapp
+        image: avramstefan/weatherapp:1.2
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+        ports:
+        - containerPort: 5001
+        env:
+          - name: OPEN_WEATHER_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: open-weather-api
+                key: api-key
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: weatherapp
+spec:
+  selector:
+    app: weatherapp
+  ports:
+  - port: 5000
+    targetPort: 5001
