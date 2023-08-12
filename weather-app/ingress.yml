@@ -23,3 +23,10 @@ spec:
             name: weatherapp
             port:
               number: 5001
+      - pathType: Prefix
+        path: /locations/
+        backend:
+         service:
+          name: weather-location
+          port:
+            number: 5002

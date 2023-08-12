@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: weatherapp
+  name: weather-location
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: weatherapp
+      app: weather-location
   template:
     metadata:
       labels:
-        app: weatherapp
+        app: weather-location
     spec:
       containers:
-      - name: weatherapp
-        image: avramstefan/weatherapp:1.9
+      - name: weather-location
+        image: avramstefan/location:1.2
         resources:
           limits:
             memory: "128Mi"
             cpu: "100m"
         ports:
-        - containerPort: 5001
+        - containerPort: 5002
         env:
           - name: OPEN_WEATHER_API_KEY
             valueFrom:
@@ -31,10 +31,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: weatherapp
+  name: weather-location
 spec:
   selector:
-    app: weatherapp
+    app: weather-location
   ports:
   - port: 5000
-    targetPort: 5001
+    targetPort: 5002
